@@ -1,17 +1,8 @@
 @import "tailwindcss";
 
-@theme {
-  --color-beach-1: #204558;
-  --color-beach-2: #6A7D86;
-  --color-beach-3: #C4CFCB;
-  --color-beach-4: #CEC7B8;
-  --color-beach-5: #E9E8DB;
-  --color-beach-6: #383C4D;
-}
-
 @layer base {
   body {
-    @apply m-0 p-0 overflow-hidden bg-beach-5 text-slate-800;
+    @apply m-0 p-0 overflow-hidden bg-gray-50 text-slate-800;
     font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
   }
 }
