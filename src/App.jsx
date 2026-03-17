@@ -49,7 +49,7 @@ const PROXY_LIST = [
 ];
 const ANAGRAFICA_URL = 'https://www.mimit.gov.it/images/exportCSV/anagrafica_impianti_attivi.csv';
 const PREZZI_URL = 'https://www.mimit.gov.it/images/exportCSV/prezzo_alle_8.csv';
-const FUEL_COLORS = { 'Benzina': '#BE2200', 'Gasolio': '#41060C', 'GPL': '#B7AA7F', 'Metano': '#D9914C', 'GNL': '#EBCBA6' };
+const FUEL_COLORS = { 'Benzina': '#204558', 'Gasolio': '#383C4D', 'GPL': '#6A7D86', 'Metano': '#CEC7B8', 'GNL': '#C4CFCB' };
 const getFuelColor = (ft) => FUEL_COLORS[ft] || '#64748b';
 
 // ==========================================
@@ -83,7 +83,7 @@ function CollapsiblePanel({ title, icon, children, defaultOpen = false }) {
     <div className="border border-slate-200 rounded-2xl overflow-hidden bg-white">
       <button
         onClick={() => setOpen(!open)}
-        className="w-full flex items-center justify-between px-4 py-3 text-left hover:bg-slate-50 transition-colors"
+        className="w-full flex items-center justify-between px-4 py-3 text-left hover:bg-beach-5/50 transition-colors"
       >
         <div className="flex items-center gap-2">
           {icon}
@@ -265,13 +265,13 @@ export default function App() {
         .sort().map(k => {
           const p = station.prices[k];
           const badge = p.isSelf === 1
-            ? '<span style="font-size:9px;padding:1px 4px;background:#f5ebd9;color:#BE2200;border-radius:4px;margin-left:4px">Self</span>'
-            : '<span style="font-size:9px;padding:1px 4px;background:#fff5eb;color:#D9914C;border-radius:4px;margin-left:4px">Serv</span>';
+            ? '<span style="font-size:9px;padding:1px 4px;background:#E9E8DB;color:#204558;border-radius:4px;margin-left:4px">Self</span>'
+            : '<span style="font-size:9px;padding:1px 4px;background:#ffffff;color:#CEC7B8;border-radius:4px;margin-left:4px">Serv</span>';
           return `<div style="display:flex;justify-content:space-between;align-items:center;padding:3px 0;border-bottom:1px solid #f1f5f9"><div style="display:flex;align-items:center"><span style="color:#475569;font-size:12px;font-weight:500">${p.type}</span>${badge}</div><span style="color:#0f172a;font-weight:800;font-size:12px">€${p.price.toFixed(3)}</span></div>`;
         }).join('');
-      const dotColor = isCheapest ? '#B7AA7F' : (isBelow ? '#D9914C' : '#BE2200');
+      const dotColor = isCheapest ? '#6A7D86' : (isBelow ? '#CEC7B8' : '#204558');
       const dotSz = isCheapest ? 18 : 14, ringSz = isCheapest ? 28 : 22;
-      const iconHtml = `<div style="position:relative;display:flex;justify-content:center;align-items:center;width:40px;height:40px;cursor:pointer;z-index:10" onmouseover="this.querySelector('.tt').style.display='flex'" onmouseout="this.querySelector('.tt').style.display='none'"><div style="width:${ringSz}px;height:${ringSz}px;border-radius:50%;background:${dotColor}18;display:flex;align-items:center;justify-content:center"><div style="width:${dotSz}px;height:${dotSz}px;border-radius:50%;background:${dotColor};border:2.5px solid white;box-shadow:0 1px 8px ${dotColor}50"></div></div><div class="tt" style="display:none;flex-direction:column;position:absolute;bottom:32px;left:50%;transform:translateX(-50%);background:white;border:1px solid #e2e8f0;border-radius:14px;padding:12px 14px;min-width:210px;z-index:999;box-shadow:0 12px 40px rgba(0,0,0,0.12)"><div style="display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid #f1f5f9;padding-bottom:6px;margin-bottom:6px"><span style="font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:0.5px;color:#64748b">${station.brand}</span><span style="font-size:10px;font-weight:700;padding:2px 6px;border-radius:6px;background:${isBelow ? '#e1efcd' : '#f5ebd9'};color:${isBelow ? '#B7AA7F' : '#D9914C'}">${deltaLabel} ${station.activeFuelType}</span></div>${fuelsHtml}</div></div>`;
+      const iconHtml = `<div style="position:relative;display:flex;justify-content:center;align-items:center;width:40px;height:40px;cursor:pointer;z-index:10" onmouseover="this.querySelector('.tt').style.display='flex'" onmouseout="this.querySelector('.tt').style.display='none'"><div style="width:${ringSz}px;height:${ringSz}px;border-radius:50%;background:${dotColor}18;display:flex;align-items:center;justify-content:center"><div style="width:${dotSz}px;height:${dotSz}px;border-radius:50%;background:${dotColor};border:2.5px solid white;box-shadow:0 1px 8px ${dotColor}50"></div></div><div class="tt" style="display:none;flex-direction:column;position:absolute;bottom:32px;left:50%;transform:translateX(-50%);background:white;border:1px solid #e2e8f0;border-radius:14px;padding:12px 14px;min-width:210px;z-index:999;box-shadow:0 12px 40px rgba(0,0,0,0.12)"><div style="display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid #f1f5f9;padding-bottom:6px;margin-bottom:6px"><span style="font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:0.5px;color:#64748b">${station.brand}</span><span style="font-size:10px;font-weight:700;padding:2px 6px;border-radius:6px;background:${isBelow ? '#C4CFCB' : '#E9E8DB'};color:${isBelow ? '#6A7D86' : '#CEC7B8'}">${deltaLabel} ${station.activeFuelType}</span></div>${fuelsHtml}</div></div>`;
       const icon = window.L.divIcon({ html: iconHtml, className: '', iconSize: [40, 40], iconAnchor: [20, 20] });
       const marker = window.L.marker([station.lat, station.lng], { icon }).addTo(map);
       marker.on('click', () => setSelectedStation(station));
@@ -288,9 +288,9 @@ export default function App() {
 
   if (!dataLoaded) {
     return (
-      <div className="h-screen w-full flex flex-col items-center justify-center bg-slate-50">
+      <div className="h-screen w-full flex flex-col items-center justify-center bg-beach-5/50">
         <div className="mb-6 relative">
-          <div className="p-4 bg-gradient-to-br from-autumn-4 to-autumn-2 rounded-2xl shadow-xl shadow-autumn-5/25">
+          <div className="p-4 bg-beach-1 rounded-2xl shadow-xl shadow-beach-6/25">
             <svg width="40" height="40" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
               <rect x="14" y="12" width="22" height="30" rx="4" fill="white" opacity="0.95"/>
               <path d="M36 20 L46 14 L46 28 L40 25 L40 20" fill="white" opacity="0.8"/>
@@ -302,7 +302,7 @@ export default function App() {
         </div>
         <h1 className="text-2xl font-black text-slate-900 tracking-tight mb-1">CostaMeno</h1>
         <div className="flex items-center space-x-3 mt-4">
-          <Loader2 className="w-5 h-5 animate-spin text-autumn-4" />
+          <Loader2 className="w-5 h-5 animate-spin text-beach-1" />
           <span className="text-sm font-semibold text-slate-500 tracking-tight">{loadingMsg}</span>
         </div>
       </div>
@@ -320,12 +320,12 @@ export default function App() {
   })() : null;
 
   return (
-    <div className="h-screen w-full flex flex-col overflow-hidden bg-slate-50 font-sans text-slate-800">
+    <div className="h-screen w-full flex flex-col overflow-hidden bg-beach-5/50 font-sans text-slate-800">
 
       {/* HEADER */}
       <header className="flex-shrink-0 bg-white border-b border-slate-200 z-50 px-5 py-2.5 flex items-center justify-between">
         <div className="flex items-center gap-3">
-          <div className="p-1.5 bg-gradient-to-br from-autumn-4 to-autumn-2 rounded-xl shadow-lg shadow-autumn-5/20">
+          <div className="p-1.5 bg-beach-1 rounded-xl shadow-lg shadow-beach-6/20">
             <svg width="28" height="28" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
               <rect x="14" y="12" width="22" height="30" rx="4" fill="white" opacity="0.95"/>
               <path d="M36 20 L46 14 L46 28 L40 25 L40 20" fill="white" opacity="0.8"/>
@@ -336,14 +336,14 @@ export default function App() {
           </div>
           <div>
             <h1 className="text-lg font-black tracking-tight text-slate-900 leading-none">
-              Costa<span className="text-transparent bg-clip-text bg-gradient-to-r from-autumn-4 to-autumn-5">Meno</span>
+              Costa<span className="text-beach-1">Meno</span>
             </h1>
             <p className="text-[10px] text-slate-400 font-medium mt-0.5 hidden sm:block">Trova il pieno al miglior prezzo · Dati MIMIT</p>
           </div>
         </div>
         <div className="flex items-center gap-3">
           {usedFallback && (
-            <div className="flex items-center text-autumn-2 font-semibold text-xs bg-autumn-2/10 px-3 py-1.5 rounded-full border border-autumn-2/50">
+            <div className="flex items-center text-beach-4 font-semibold text-xs bg-beach-4/10 px-3 py-1.5 rounded-full border border-beach-4/50">
               <AlertCircle className="w-3.5 h-3.5 mr-1.5" />Test
             </div>
           )}
@@ -364,7 +364,7 @@ export default function App() {
             {/* Filters */}
             <section className="space-y-4 flex-shrink-0">
               <div className="flex items-center gap-2">
-                <div className="w-1 h-5 bg-gradient-to-b from-indigo-500 to-violet-500 rounded-full"></div>
+                <div className="w-1 h-5 bg-beach-1 rounded-full"></div>
                 <h2 className="text-base font-bold text-slate-800 tracking-tight">Filtra Distributori</h2>
               </div>
 
@@ -372,16 +372,16 @@ export default function App() {
               <div className="space-y-2">
                 <label className="text-[11px] font-bold text-slate-400 uppercase tracking-wider block">Modalità</label>
                 <div className="flex gap-2">
-                  <label className={`flex-1 flex items-center justify-center gap-2 py-2.5 px-3 rounded-xl border-2 cursor-pointer select-none transition-all ${showSelf ? 'bg-autumn-1/50 border-autumn-4 text-autumn-5' : 'bg-white border-slate-200 text-slate-400 hover:bg-slate-50'}`}>
+                  <label className={`flex-1 flex items-center justify-center gap-2 py-2.5 px-3 rounded-xl border-2 cursor-pointer select-none transition-all ${showSelf ? 'bg-beach-5/50 border-beach-1 text-beach-6' : 'bg-white border-slate-200 text-slate-400 hover:bg-beach-5/50'}`}>
                     <input type="checkbox" className="sr-only" checked={showSelf} onChange={(e) => setShowSelf(e.target.checked)} />
-                    <div className={`w-3.5 h-3.5 rounded border-2 flex items-center justify-center transition-colors ${showSelf ? 'border-autumn-4 bg-autumn-1/500 text-white' : 'border-slate-300'}`}>
+                    <div className={`w-3.5 h-3.5 rounded border-2 flex items-center justify-center transition-colors ${showSelf ? 'border-beach-1 bg-beach-5/500 text-white' : 'border-slate-300'}`}>
                       {showSelf && <Check className="w-2.5 h-2.5" strokeWidth={3} />}
                     </div>
                     <span className="font-semibold text-sm">Self</span>
                   </label>
-                  <label className={`flex-1 flex items-center justify-center gap-2 py-2.5 px-3 rounded-xl border-2 cursor-pointer select-none transition-all ${showServito ? 'bg-autumn-1/30 border-autumn-2 text-autumn-5' : 'bg-white border-slate-200 text-slate-400 hover:bg-slate-50'}`}>
+                  <label className={`flex-1 flex items-center justify-center gap-2 py-2.5 px-3 rounded-xl border-2 cursor-pointer select-none transition-all ${showServito ? 'bg-beach-5/30 border-beach-4 text-beach-6' : 'bg-white border-slate-200 text-slate-400 hover:bg-beach-5/50'}`}>
                     <input type="checkbox" className="sr-only" checked={showServito} onChange={(e) => setShowServito(e.target.checked)} />
-                    <div className={`w-3.5 h-3.5 rounded border-2 flex items-center justify-center transition-colors ${showServito ? 'border-autumn-2 bg-autumn-1/300 text-white' : 'border-slate-300'}`}>
+                    <div className={`w-3.5 h-3.5 rounded border-2 flex items-center justify-center transition-colors ${showServito ? 'border-beach-4 bg-beach-5/300 text-white' : 'border-slate-300'}`}>
                       {showServito && <Check className="w-2.5 h-2.5" strokeWidth={3} />}
                     </div>
                     <span className="font-semibold text-sm">Servito</span>
@@ -397,27 +397,27 @@ export default function App() {
                 </div>
                 <input type="range" min="1.300" max="2.500" step="0.010" value={maxPrice}
                   onChange={(e) => setMaxPrice(parseFloat(e.target.value))}
-                  className="w-full h-2 bg-slate-200 rounded-full appearance-none cursor-pointer accent-autumn-4" />
+                  className="w-full h-2 bg-slate-200 rounded-full appearance-none cursor-pointer accent-beach-1" />
               </div>
 
               {/* Geo */}
-              <div className="space-y-2 bg-slate-50 p-3.5 rounded-2xl border border-slate-100">
+              <div className="space-y-2 bg-beach-5/50 p-3.5 rounded-2xl border border-slate-100">
                 <label className="text-[11px] font-bold text-slate-400 uppercase tracking-wider block">Zona</label>
                 <select value={filterRegion} onChange={handleRegionChange}
-                  className="w-full bg-white border border-slate-200 rounded-xl px-3 py-2 text-sm font-medium text-slate-700 focus:ring-2 focus:ring-autumn-4/30 outline-none shadow-sm">
+                  className="w-full bg-white border border-slate-200 rounded-xl px-3 py-2 text-sm font-medium text-slate-700 focus:ring-2 focus:ring-beach-1/30 outline-none shadow-sm">
                   <option value="Tutte">Tutta Italia</option>
                   {geoData.regions.map(r => <option key={r} value={r}>{r}</option>)}
                 </select>
                 <div className="grid grid-cols-2 gap-2">
                   <select value={filterProvince} onChange={(e) => { setFilterProvince(e.target.value); setFilterCity('Tutte'); }}
                     disabled={filterRegion === 'Tutte' || geoData.provinces.length <= 1}
-                    className="w-full bg-white border border-slate-200 rounded-xl px-3 py-2 text-sm font-medium text-slate-700 disabled:opacity-40 focus:ring-2 focus:ring-autumn-4/30 outline-none shadow-sm">
+                    className="w-full bg-white border border-slate-200 rounded-xl px-3 py-2 text-sm font-medium text-slate-700 disabled:opacity-40 focus:ring-2 focus:ring-beach-1/30 outline-none shadow-sm">
                     <option value="Tutte">Provincia</option>
                     {geoData.provinces.map(p => <option key={p} value={p}>{p}</option>)}
                   </select>
                   <select value={filterCity} onChange={(e) => setFilterCity(e.target.value)}
                     disabled={filterProvince === 'Tutte' || geoData.cities.length <= 1}
-                    className="w-full bg-white border border-slate-200 rounded-xl px-3 py-2 text-sm font-medium text-slate-700 disabled:opacity-40 focus:ring-2 focus:ring-autumn-4/30 outline-none shadow-sm">
+                    className="w-full bg-white border border-slate-200 rounded-xl px-3 py-2 text-sm font-medium text-slate-700 disabled:opacity-40 focus:ring-2 focus:ring-beach-1/30 outline-none shadow-sm">
                     <option value="Tutte">Città</option>
                     {geoData.cities.map(c => <option key={c} value={c}>{c}</option>)}
                   </select>
@@ -429,12 +429,12 @@ export default function App() {
             {sortedFuelTypes.length > 0 && (
               <CollapsiblePanel
                 title="Prezzi Medi per Carburante"
-                icon={<BarChart3 className="w-4 h-4 text-indigo-400" />}
+                icon={<BarChart3 className="w-4 h-4 text-beach-1" />}
                 defaultOpen={false}
               >
                 <div className="space-y-2 mt-2">
                   {sortedFuelTypes.map(ft => (
-                    <div key={ft} className="flex items-center justify-between py-2 px-3 bg-slate-50 rounded-xl">
+                    <div key={ft} className="flex items-center justify-between py-2 px-3 bg-beach-5/50 rounded-xl">
                       <div className="flex items-center gap-2">
                         <div className="w-2.5 h-2.5 rounded-full" style={{ background: getFuelColor(ft) }}></div>
                         <span className="text-[12px] font-bold text-slate-600">{ft}</span>
@@ -453,7 +453,7 @@ export default function App() {
             {sortedFuelTypes.length > 0 && chartData && (
               <CollapsiblePanel
                 title="Distribuzione Prezzi in Zona"
-                icon={<TrendingDown className="w-4 h-4 text-autumn-3" />}
+                icon={<TrendingDown className="w-4 h-4 text-beach-2" />}
                 defaultOpen={false}
               >
                 <div className="space-y-5 mt-2">
@@ -499,19 +499,19 @@ export default function App() {
               <div className="flex items-center justify-between mb-3">
                 <div className="flex items-center gap-2 text-sm font-semibold text-slate-500">
                   <div className="relative flex h-2 w-2">
-                    {listStations.length > 0 && <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-autumn-3/80 opacity-60"></span>}
-                    <span className={`relative inline-flex rounded-full h-2 w-2 ${listStations.length > 0 ? 'bg-autumn-3/100' : 'bg-slate-300'}`}></span>
+                    {listStations.length > 0 && <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-beach-2/80 opacity-60"></span>}
+                    <span className={`relative inline-flex rounded-full h-2 w-2 ${listStations.length > 0 ? 'bg-beach-2/100' : 'bg-slate-300'}`}></span>
                   </div>
                   <span>{listStations.length} distributori in zona</span>
                 </div>
                 {listStations.length === 300 && globalFilteredStations.length > 300 && (
-                  <span className="text-[10px] font-bold text-autumn-2 bg-autumn-2/10 px-2 py-0.5 rounded-full border border-autumn-2/50" title={`${globalFilteredStations.length} totali`}>Max 300</span>
+                  <span className="text-[10px] font-bold text-beach-4 bg-beach-4/10 px-2 py-0.5 rounded-full border border-beach-4/50" title={`${globalFilteredStations.length} totali`}>Max 300</span>
                 )}
               </div>
 
               <div className="flex-1 overflow-y-auto space-y-2 pb-6 pr-1 custom-scrollbar">
                 {listStations.length === 0 ? (
-                  <div className="text-center p-6 text-slate-400 bg-slate-50 rounded-2xl border-2 border-dashed border-slate-200">
+                  <div className="text-center p-6 text-slate-400 bg-beach-5/50 rounded-2xl border-2 border-dashed border-slate-200">
                     <p className="font-medium text-sm">Nessuna stazione in quest'area.</p>
                     <p className="text-xs mt-1 opacity-60">Sposta la mappa o modifica i filtri.</p>
                   </div>
@@ -525,25 +525,25 @@ export default function App() {
                       <div key={`${station.id}-${idx}`}
                         className={`p-3.5 rounded-2xl cursor-pointer select-none transition-all duration-200 group relative overflow-hidden
                           ${isCheapest
-                            ? 'bg-gradient-to-br from-emerald-50 to-teal-50 border-2 border-autumn-3 shadow-sm'
+                            ? 'bg-beach-1 border-2 border-beach-2 shadow-sm'
                             : 'bg-white border border-slate-100 hover:border-slate-200 hover:shadow-sm'}
-                          ${selectedStation?.id === station.id && !isCheapest ? 'ring-2 ring-autumn-4 border-transparent' : ''}`}
+                          ${selectedStation?.id === station.id && !isCheapest ? 'ring-2 ring-beach-1 border-transparent' : ''}`}
                         onClick={() => handleStationClick(station)}>
                         {isCheapest && (
-                          <div className="absolute top-0 right-0 bg-autumn-3/100 text-[9px] font-black text-white tracking-widest uppercase px-2.5 py-0.5 rounded-bl-xl">TOP</div>
+                          <div className="absolute top-0 right-0 bg-beach-2/100 text-[9px] font-black text-white tracking-widest uppercase px-2.5 py-0.5 rounded-bl-xl">TOP</div>
                         )}
                         <div className="flex justify-between items-start gap-3">
                           <div className="min-w-0 flex-1">
                             <span className="text-[10px] font-bold uppercase tracking-widest text-slate-400 block">{station.brand}</span>
-                            <h3 className={`font-bold text-sm leading-snug mt-0.5 ${isCheapest ? 'text-autumn-5' : 'text-slate-800'} line-clamp-1`}>{station.name}</h3>
+                            <h3 className={`font-bold text-sm leading-snug mt-0.5 ${isCheapest ? 'text-beach-6' : 'text-slate-800'} line-clamp-1`}>{station.name}</h3>
                             <p className="text-[11px] text-slate-400 mt-1 flex items-center gap-1 line-clamp-1">
                               <MapIcon className="w-3 h-3 shrink-0 opacity-60" /> {station.city} ({station.province})
                             </p>
                           </div>
                           <div className="text-right shrink-0">
-                            <span className={`font-extrabold text-lg tabular-nums ${isCheapest ? 'text-autumn-3' : 'text-slate-800'}`}>€{station.activePrice.toFixed(3)}</span>
+                            <span className={`font-extrabold text-lg tabular-nums ${isCheapest ? 'text-beach-2' : 'text-slate-800'}`}>€{station.activePrice.toFixed(3)}</span>
                             {fuelAvg > 0 && (
-                              <div className={`flex items-center justify-end gap-0.5 mt-0.5 text-[11px] font-bold ${isBelow ? 'text-autumn-3' : 'text-autumn-2'}`}>
+                              <div className={`flex items-center justify-end gap-0.5 mt-0.5 text-[11px] font-bold ${isBelow ? 'text-beach-2' : 'text-beach-4'}`}>
                                 {isBelow ? <TrendingDown className="w-3 h-3" /> : <TrendingUp className="w-3 h-3" />}
                                 <span className="tabular-nums">{formatDelta(delta)} {station.activeFuelType}</span>
                               </div>
@@ -570,7 +570,7 @@ export default function App() {
           return (
             <div className="absolute bottom-6 left-1/2 -translate-x-1/2 z-[400] w-[calc(100%-2rem)] max-w-[400px] pointer-events-none md:ml-[200px]">
               <div className="bg-white rounded-3xl shadow-2xl border border-slate-200 p-5 pointer-events-auto relative overflow-hidden">
-                <div className="absolute top-0 inset-x-0 h-1 bg-gradient-to-r from-indigo-500 to-violet-500"></div>
+                <div className="absolute top-0 inset-x-0 h-1 bg-beach-1"></div>
                 <button onClick={(e) => { e.stopPropagation(); setSelectedStation(null); }}
                   className="absolute top-4 right-4 p-2 bg-slate-100 rounded-full hover:bg-slate-200 text-slate-400 transition-colors">
                   <X className="w-4 h-4" />
@@ -579,7 +579,7 @@ export default function App() {
                   <div className="flex items-center gap-2 mb-2 flex-wrap">
                     <span className="bg-slate-100 text-slate-500 text-[10px] font-black px-2 py-0.5 rounded uppercase tracking-wider">{selectedStation.brand}</span>
                     {fuelAvg > 0 && (
-                      <span className={`text-[10px] font-bold px-2 py-0.5 rounded ${isBelow ? 'bg-autumn-3/30 text-autumn-5' : 'bg-autumn-2/30 text-autumn-5'}`}>
+                      <span className={`text-[10px] font-bold px-2 py-0.5 rounded ${isBelow ? 'bg-beach-2/30 text-beach-6' : 'bg-beach-4/30 text-beach-6'}`}>
                         {isBelow ? '↓' : '↑'} {formatDelta(delta)} vs media {selectedStation.activeFuelType}
                       </span>
                     )}
@@ -605,7 +605,7 @@ export default function App() {
                               <div className="flex items-baseline gap-1.5">
                                 <span className="font-extrabold text-sm text-slate-800 tabular-nums">€{p.price.toFixed(3)}</span>
                                 {pDelta !== null && (
-                                  <span className={`text-[9px] font-bold ${pDelta < 0 ? 'text-autumn-3' : 'text-autumn-2'}`}>
+                                  <span className={`text-[9px] font-bold ${pDelta < 0 ? 'text-beach-2' : 'text-beach-4'}`}>
                                     {pDelta < 0 ? '↓' : '↑'}{Math.abs(Math.round(pDelta * 1000))}
                                   </span>
                                 )}
@@ -616,7 +616,7 @@ export default function App() {
                     </div>
                     <a href={`https://www.google.com/maps/dir/?api=1&destination=${selectedStation.lat},${selectedStation.lng}`}
                       target="_blank" rel="noreferrer"
-                      className="flex items-center justify-center gap-2 w-full bg-gradient-to-r from-autumn-4 to-autumn-5 hover:from-autumn-4/90 hover:to-autumn-5/90 text-white px-5 py-3 rounded-2xl font-bold shadow-lg shadow-autumn-5/20 transition-all active:scale-[0.98]">
+                      className="flex items-center justify-center gap-2 w-full bg-beach-1 hover:bg-beach-1/90 text-white px-5 py-3 rounded-2xl font-bold shadow-lg shadow-beach-6/20 transition-all active:scale-[0.98]">
                       <Navigation className="w-4 h-4" /> Ottieni Indicazioni
                     </a>
                   </div>
